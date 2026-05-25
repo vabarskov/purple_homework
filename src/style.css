@@ -10,10 +10,13 @@
     --default-font-weight: 400;
     --bold-font-weight: 700;
     --big-font-size: 24px;
+    --small-font-size: 16px;
+    --small-line-height: 24px;
 
-    --project-font: "Roboto", sans-serif;
+    --project-font: "Roboto";
 }
 
 body {
-    font-family: var(--project-font);
+    font-family: var(--project-font), sans-serif;
 }
+
