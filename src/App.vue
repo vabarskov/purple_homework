@@ -5,7 +5,7 @@
     </div>
     <div class="inner-page" v-else>
         <div class="cards-wrapper">
-            <AppCard />
+            <AppCard @rotated="console.log('rotated')" @completed="console.log('completed')" />
         </div>
     </div>
 </template>

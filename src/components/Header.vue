@@ -3,20 +3,14 @@
         <div class="title">
             {{ title }}
         </div>
-        <div class="score-wrapper">
-            <div class="score">
-                {{ score }}
-            </div>
-            <AppIconHeart />
-        </div>
+        <AppScore :score="117" />
     </div>
 </template>
 
 <script setup>
-    import AppIconHeart from './Icons/Heart.vue';
-    const { title, score } = defineProps({
+    import AppScore from './Score.vue';
+    const { title } = defineProps({
         title: {type: String, default: 'Запомни слово'},
-        score: {type: Number, default: 0},
     });
 </script>
 
@@ -33,16 +27,5 @@
     }
     .title {
         letter-spacing: 12%;
-    }
-    .score-wrapper {
-        padding: 12px 24px;
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        justify-content: space-between;
-        background-color: #CCE8FF;
-        color: #008BFE;
-        border-radius: 36px;
-        border: none;
     }
 </style>

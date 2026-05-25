@@ -4,25 +4,42 @@
         <div class="card__content">
             {{ name }}
         </div>
-        <div class="card__bottom" @click="emit('rotate')">
+        <div class="card__bottom" @click="rotate" v-if="!rotated">
             {{ rotateName }}
+        </div>
+        <div class="card__bottom" @click="complete" v-else>
+            {{ completeName }}
         </div>
     </div>
 </template>
 
 <script setup>
+    import {ref} from "vue";
+
     const { num, name, rotateName, completeName } = defineProps({
         num: {type: String, default: '01'},
         name: {type: String, default: 'Имя карточки'},
         rotateName: {type: String, default: 'Перевернуть'},
         completeName: {type: String, default: 'Завершено'},
     });
+    const rotated = ref(false);
+    const completed = ref(false);
+    function rotate() {
+        rotated.value = true;
+        completed.value = false;
+        emit('rotated');
+    }
+    function complete() {
+        completed.value = true;
+        rotated.value = false;
+        emit('completed');
+    }
     const emit = defineEmits({
-        rotate() {
-
+        rotated() {
+            return true;
         },
         completed() {
-
+            return true;
         },
     });
 </script>
@@ -67,6 +84,7 @@
         line-height: 18px;
         letter-spacing: 12%;
         text-transform: uppercase;
+        cursor: pointer;
     }
 
     .card__content {
