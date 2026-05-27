@@ -1,37 +1,37 @@
 <template>
     <div class="card">
-        <div class="card__num">{{ num }}</div>
+        <div class="card__num">{{ props.num }}</div>
         <div class="card__content">
-            {{ name }}
+            {{ props.word }}
         </div>
         <div class="card__bottom" @click="rotate" v-if="!rotated">
-            {{ rotateName }}
+            {{ props.rotateName }}
         </div>
         <div class="card__bottom" @click="complete" v-else>
-            {{ completeName }}
+            {{ props.completeName }}
         </div>
     </div>
 </template>
 
 <script setup>
-    import {ref} from "vue";
+    import { computed } from "vue";
 
-    const { num, name, rotateName, completeName } = defineProps({
+    const props = defineProps({
         num: {type: String, default: '01'},
-        name: {type: String, default: 'Имя карточки'},
+        word: {type: String, default: 'Имя карточки'},
+        translation: {type: String, default: 'Card name'},
         rotateName: {type: String, default: 'Перевернуть'},
         completeName: {type: String, default: 'Завершено'},
+        state: {type: String, default: 'closed'},
+        status: {type: String, default: 'pending'}
     });
-    const rotated = ref(false);
-    const completed = ref(false);
+    const rotated = computed(() => {
+        return props.state !== 'closed'
+    });
     function rotate() {
-        rotated.value = true;
-        completed.value = false;
         emit('rotated');
     }
     function complete() {
-        completed.value = true;
-        rotated.value = false;
         emit('completed');
     }
     const emit = defineEmits({

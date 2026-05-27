@@ -3,15 +3,17 @@
         <div class="title">
             {{ title }}
         </div>
-        <AppScore :score="117" />
+        <AppScore v-bind:score="score" />
     </div>
 </template>
 
 <script setup>
     import AppScore from './Score.vue';
+    import {ref} from "vue";
     const { title } = defineProps({
         title: {type: String, default: 'Запомни слово'},
     });
+    const score = ref(10);
 </script>
 
 <style scoped>

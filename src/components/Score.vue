@@ -10,7 +10,7 @@
 <script setup>
     import AppIconHeart from "./Icons/Heart.vue";
 
-    const { title, score } = defineProps({
+    const { score } = defineProps({
         score: {type: Number, default: 0},
     });
 </script>
