@@ -1,20 +1,33 @@
 <template>
     <div class="card">
         <div class="card__num">{{ props.num }}</div>
+        <div class="card__pin" v-if="isCompleted">
+            <AppTrueIcon v-if="isTrue" />
+            <AppFalseIcon v-else />
+        </div>
         <div class="card__content">
             {{ props.word }}
         </div>
         <div class="card__bottom" @click="rotate" v-if="!rotated">
             {{ props.rotateName }}
         </div>
-        <div class="card__bottom" @click="complete" v-else>
-            {{ props.completeName }}
-        </div>
+        <template v-else>
+            <div class="card__bottom__pins" v-if="!isCompleted && rotated">
+                <AppTrueIcon />
+                <AppFalseIcon />
+            </div>
+            <div class="card__bottom" @click="complete" v-else>
+                {{ props.completeName }}
+            </div>
+        </template>
     </div>
 </template>
 
 <script setup>
     import { computed } from "vue";
+
+    import AppTrueIcon from './Icons/True.vue';
+    import AppFalseIcon from './Icons/False.vue';
 
     const props = defineProps({
         num: {type: String, default: '01'},
@@ -25,8 +38,14 @@
         state: {type: String, default: 'closed'},
         status: {type: String, default: 'pending'}
     });
+    const isCompleted = computed(() => {
+        return props.status !== 'pending'
+    });
+    const isTrue = computed(() => {
+        return props.status === 'true'
+    });
     const rotated = computed(() => {
-        return props.state !== 'closed'
+        return props.state === 'opened'
     });
     function rotate() {
         emit('rotated');
@@ -47,9 +66,9 @@
 <style scoped>
     .card {
         position: relative;
-        width: 250px;
+        min-width: 250px;
         height: 376px;
-        background: #f7f7f7;
+        background: var(--color-button);
         border-radius: 30px;
         padding: 40px 30px;
     }
@@ -96,4 +115,39 @@
         z-index: 2;
         font-size: 18px;
     }
+
+    .card__pin {
+        position: absolute;
+        left: calc(50% - 18px);
+        top: 15px;
+        width: 36px;
+        height: 36px;
+        z-index: 2;
+    }
+
+    .card__pin svg {
+        width: 100%;
+        height: 100%;
+    }
+
+    .card__bottom__pins {
+        position: absolute;
+        bottom: 16px;
+        padding-left: 5px;
+        padding-right: 5px;
+        left: calc(50% - 45px);
+        display: flex;
+        z-index: 2;
+        background: var(--color-button);
+    }
+
+    .card__bottom__pins svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    .card__bottom__pins svg:first-child {
+        margin-right: 32px;
+    }
+
 </style>
