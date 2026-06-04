@@ -6,10 +6,14 @@
             <AppFalseIcon v-else />
         </div>
         <div class="card__content">
-            {{ props.word }}
+            <div class="text">
+                {{ props.word }}
+            </div>
         </div>
         <div class="card__bottom" @click="rotate" v-if="!rotated">
-            {{ props.rotateName }}
+            <div class="text">
+                {{ props.rotateName }}
+            </div>
         </div>
         <template v-else>
             <div class="card__bottom__pins" v-if="!isCompleted && rotated">
@@ -148,6 +152,10 @@
 
     .card__bottom__pins svg:first-child {
         margin-right: 32px;
+    }
+
+    .text {
+        max-width: 75%;
     }
 
 </style>

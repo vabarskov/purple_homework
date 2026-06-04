@@ -17,43 +17,27 @@
     import { ref } from "vue";
 
     const showMain = ref(false);
-    const cards = ref([
-        {
-            num: '01',
-            word: 'Перевод',
-            translation: 'Translation',
-            state: 'closed',
-            status: 'pending'
-        },
-        {
-            num: '02',
-            word: 'Машина',
-            translation: 'Car',
-            state: 'closed',
-            status: 'false'
-        },
-        {
-            num: '03',
-            word: 'Клавиатура',
-            translation: 'Keyboard',
-            state: 'closed',
-            status: 'true'
-        },
-        {
-            num: '04',
-            word: 'Телефон',
-            translation: 'Phone',
-            state: 'opened',
-            status: 'false'
-        },
-        {
-            num: '05',
-            word: 'Медиатор',
-            translation: 'Pick',
-            state: 'opened',
-            status: 'pending'
-        },
-    ]);
+    const cards = ref([]);
+    async function loadCards() {
+        let cardsFetch = await fetch('http://localhost:8080/api/random-words');
+        cardsFetch = await cardsFetch.json();
+        let i = 1;
+        for (let card of cardsFetch) {
+            let cardOb = {};
+            if (i < 10) {
+                cardOb.num = '0' + i.toString();
+            } else {
+                cardOb.num = i.toString();
+            }
+            cardOb.word = card.translation;
+            cardOb.translation = card.word;
+            cardOb.state ='closed';
+            cardOb.status = 'pending';
+            cards.value.push(cardOb);
+            i++;
+        }
+    };
+    loadCards();
 </script>
 
 <style scoped>
